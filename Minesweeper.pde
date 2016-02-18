@@ -14,8 +14,9 @@ void setup ()
     // make the manager
     Interactive.make( this );
     
-    
+bombs=new ArrayList <MSButton>();    
 buttons=new MSButton[row][col];
+
 for(int i =0;i<row;i++){
     for(int r=0;r<col;r++){
 
@@ -27,9 +28,15 @@ for(int i =0;i<row;i++){
 }
 public void setBombs()
 {
-   therow=(int)(Math.random()*row);
-   thecol=(int)(Math.random()*col);
-   
+    for(int i =0;i<40;i++){
+   int therow=(int)(Math.random()*row);
+   int thecol=(int)(Math.random()*col);
+   if(bombs.contains(buttons[therow][thecol])==false){
+
+bombs.add(buttons[therow][thecol]);
+
+   }
+}
 }
 
 public void draw ()
@@ -85,14 +92,23 @@ public class MSButton
     {
         clicked = true;
         //your code here
-    }
+        if(keyPressed==true){
+
+         }
+}
+
+
+
+        
+
+    
 
     public void draw () 
     {    
         if (marked)
             fill(0);
-        // else if( clicked && bombs.contains(this) ) 
-        //     fill(255,0,0);
+         else if( clicked && bombs.contains(this) ) 
+            fill(255,0,0);
         else if(clicked)
             fill( 200 );
         else 
@@ -109,12 +125,51 @@ public class MSButton
     public boolean isValid(int r, int c)
     {
         //your code here
+        if(buttons[r][c]!=null){
+
+
+            return true;
+        }
         return false;
     }
     public int countBombs(int row, int col)
     {
         int numBombs = 0;
         //your code here
+for(int i=row-1;i<=row+1;i++){
+    for(int n=col-1;n<=col+1;n++){    
+
+        if(i!=row&&n!=col){
+            if(isValid(i,n)){
+                if(bombs.contains(buttons[i][n])){
+
+                numBombs++;
+                 }
+
+             }
+
+
+
+        }
+
+
+    }
+
+
+
+
+}
+
+
+
+
+        
+
+
+
+
+
+
         return numBombs;
     }
 }
