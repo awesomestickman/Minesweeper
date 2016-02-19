@@ -93,6 +93,50 @@ public class MSButton
         clicked = true;
         //your code here
         if(keyPressed==true){
+            if(marked==false){
+                marked=true;
+
+            }
+            else if(marked==true){
+                marked=false;
+
+
+            }
+
+
+         }
+         else if(bombs.contains(this)){
+
+            System.out.print("u lost fam");
+         }
+         else if(countBombs(r,c)>0){
+
+
+            label=str(countBombs(r,c));
+         }
+         else{
+
+            for(int i=r-1;i<=r+1;i++){
+                for(int n=c-1;n<=c+1;n++){    
+
+                    if(buttons[i][n].clicked==false){
+                        if(isValid(i,n)){
+                            buttons[i][n].mousePressed();
+
+                         }
+
+
+
+                    }
+
+
+                }
+
+
+
+
+            }
+
 
          }
 }
@@ -137,9 +181,14 @@ public class MSButton
         int numBombs = 0;
         //your code here
 for(int i=row-1;i<=row+1;i++){
-    for(int n=col-1;n<=col+1;n++){    
+    System.out.println("outter" +i);
+    for(int n=col-1;n<=col+1;n++){ 
 
-        if(i!=row&&n!=col){
+        System.out.println("out"+n);   
+        //System.out.print(isValid(i,n));
+        System.out.print(" "+i);
+        System.out.println(" "+n);
+
             if(isValid(i,n)){
                 if(bombs.contains(buttons[i][n])){
 
@@ -150,7 +199,7 @@ for(int i=row-1;i<=row+1;i++){
 
 
 
-        }
+        
 
 
     }
