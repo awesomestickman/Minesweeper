@@ -72,8 +72,7 @@ public boolean isWon()
             }            
         }
     }
-    System.out.println(cleared);
-    System.out.println((col*row)-(realnumbombs));
+    
     if(cleared==((col*row)-(realnumbombs))){
 
         return true;
