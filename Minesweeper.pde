@@ -6,6 +6,9 @@ private MSButton[][] buttons; //2d array of minesweeper buttons
 private ArrayList <MSButton> bombs; //ArrayList of just the minesweeper buttons that are mined
 int col=20;
 int row=20;
+int gnumBombs=40;
+int realnumbombs=0;
+boolean lost =false;
 void setup ()
 {
     size(400, 400);
@@ -28,13 +31,13 @@ for(int i =0;i<row;i++){
 }
 public void setBombs()
 {
-    for(int i =0;i<40;i++){
+    for(int i =0;i<gnumBombs;i++){
    int therow=(int)(Math.random()*row);
    int thecol=(int)(Math.random()*col);
    if(bombs.contains(buttons[therow][thecol])==false){
 
 bombs.add(buttons[therow][thecol]);
-
+realnumbombs+=1;
    }
 }
 }
@@ -44,6 +47,8 @@ public void draw ()
     background( 0 );
     if(isWon())
         displayWinningMessage();
+    if(lost==true)
+        displayLosingMessage();
 }
 public boolean isWon()
 {
@@ -54,16 +59,22 @@ public boolean isWon()
     for(int i =0;i<row;i++){
         for(int r=0;r<col;r++){
 
-            if(buttons[i][r].clicked==true&&!(bombs.contains(buttons[i][r]))){
+            // if(buttons[i][r].clicked==true&&!(bombs.contains(buttons[i][r]))){
+            //     cleared+=1;
+
+
+            // }
+            if(buttons[i][r].clicked==true){
+                if(!(bombs.contains(buttons[i][r])))
                 cleared+=1;
 
 
-            }        
+            }            
         }
     }
     System.out.println(cleared);
-    System.out.println((col*row)-40);
-    if(cleared==(col*row)-40){
+    System.out.println((col*row)-(realnumbombs));
+    if(cleared==((col*row)-(realnumbombs))){
 
         return true;
     }
@@ -71,12 +82,41 @@ public boolean isWon()
 }
 public void displayLosingMessage()
 {
-    //your code here
+    buttons[10][9].label="YO";
+     buttons[10][10].label="U";
+      buttons[10][12].label="LO";
+       buttons[10][13].label="ST";
+
+       buttons[10][9].lose=true;
+     buttons[10][10].lose=true;
+      buttons[10][12].lose=true;
+       buttons[10][13].lose=true;
+
+       for(int i =0;i<row;i++){
+        for(int r=0;r<col;r++){
+
+           
+            buttons[i][r].clicked=true;
+               
+
+
+            
+        }
+    }
 }
 public void displayWinningMessage()
 {
     //your code here
-    text("you won",200,200);
+    buttons[10][9].label="YO";
+     buttons[10][10].label="U";
+      buttons[10][12].label="WI";
+       buttons[10][13].label="N";
+
+       buttons[10][9].win=true;
+     buttons[10][10].win=true;
+      buttons[10][12].win=true;
+       buttons[10][13].win=true;
+    
 }
 
 public class MSButton
@@ -85,6 +125,8 @@ public class MSButton
     private float x,y, width, height;
     private boolean clicked, marked;
     private String label;
+    boolean win=false;
+    boolean lose=false;
     
     public MSButton ( int rr, int cc )
     {
@@ -94,6 +136,7 @@ public class MSButton
         c = cc; 
         x = c*width;
         y = r*height;
+        
         label = "";
         marked = clicked = false;
         Interactive.add( this ); // register it with the manager
@@ -128,7 +171,7 @@ public class MSButton
          }
          else if(bombs.contains(this)){
 
-            System.out.print("u lost fam");
+            lost=true;
          }
          else if(countBombs(r,c)>0){
 
@@ -179,8 +222,21 @@ public class MSButton
             fill(255,0,0);
         else if(clicked)
             fill( 200 );
+        else if(win==true){
+            fill(240,230,140);
+
+
+        }
+         
         else 
             fill( 100 );
+if(lose==true){
+            fill(100,149,237);
+
+
+        }
+        
+
 
         rect(x, y, width, height);
         fill(0);
